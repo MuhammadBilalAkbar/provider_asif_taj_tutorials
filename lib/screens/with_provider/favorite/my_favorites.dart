@@ -14,7 +14,7 @@ class _MyFavoritesState extends State<MyFavorites> {
   @override
   Widget build(BuildContext context) {
     debugPrint('build');
-    final favoriteProvider = Provider.of<FavoriteProvider>(context);
+    final favoriteProvider = Provider.of<FavoriteItemProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('My Favorite'),
@@ -26,7 +26,7 @@ class _MyFavoritesState extends State<MyFavorites> {
               itemCount: favoriteProvider.favorites.length,
               itemBuilder: (context, index) {
                 int item = favoriteProvider.favorites[index];
-                return Consumer<FavoriteProvider>(
+                return Consumer<FavoriteItemProvider>(
                   builder: (context, value, child) {
                     return ListTile(
                       onTap: () {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:provider_asif_taj_tutorials/provider/auth_provider.dart';
+import 'package:provider_asif_taj_tutorials/screens/with_provider/login_screen.dart';
 import 'package:provider_asif_taj_tutorials/screens/with_provider/notify_listeners_screen.dart';
 import '/screens/with_provider/dark_and_light_theme.dart';
 
@@ -58,8 +60,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CounterProvider()),
         ChangeNotifierProvider(create: (context) => ExampleOneProvider()),
-        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteItemProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
@@ -74,7 +77,6 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               brightness: Brightness.light,
               primarySwatch: Colors.red,
-
               /// It is light by default.
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
@@ -99,7 +101,8 @@ class MyApp extends StatelessWidget {
             // home: const ExampleOneScreen(),
             // home: const FavoriteScreen(),
             // home: const DarkAndLightTheme(),
-            home: NotifyListenersScreen(),
+            // home: NotifyListenersScreen(),
+            home: LoginScreen(),
           );
         },
       ),

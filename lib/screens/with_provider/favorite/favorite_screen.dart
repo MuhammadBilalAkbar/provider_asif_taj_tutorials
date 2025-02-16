@@ -143,7 +143,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             child: ListView.builder(
               itemCount: 100,
               itemBuilder: (context, index) {
-                return Consumer<FavoriteProvider>(
+                return Consumer<FavoriteItemProvider>(
                   builder: (context, value, child) {
                     return ListTile(
                       onTap: () {
