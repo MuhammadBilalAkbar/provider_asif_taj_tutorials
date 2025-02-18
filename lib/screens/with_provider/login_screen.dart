@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_asif_taj_tutorials/provider/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,10 +10,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    final auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
@@ -19,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 20,
+          spacing: 30,
           children: [
             TextFormField(
               controller: emailController,
@@ -27,20 +38,39 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextFormField(
               controller: passwordController,
-              decoration: InputDecoration(hintText: 'Password'),
+              obscureText: auth.obscure,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                suffixIcon: InkWell(
+                  onTap: () {
+                    auth.setObscure(!auth.obscure);
+                  },
+                  child: Icon(
+                    auth.obscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility,
+                  ),
+                ),
+              ),
             ),
-            Container(
-              height: 60,
-              width: double.infinity,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                minimumSize: const Size(double.infinity, 60),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-              child: const Text(
-                'Login',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+              onPressed:
+                  () => auth.login(
+                    emailController.text,
+                    passwordController.text,
+                    context,
+                  ),
+              child:
+                  auth.loading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text('Login', style: TextStyle(fontSize: 20)),
             ),
           ],
         ),
